@@ -9,7 +9,7 @@ import Home from './home/index.jsx'
 import Dashboard from './dashboard/index.jsx'
 // import { Home } from 'lucide-react' 
 import { ClerkProvider } from '@clerk/clerk-react'
-
+// this is test
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 // Step-1 create const router
 const router = createBrowserRouter([
