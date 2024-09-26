@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import AddResume from './components/AddResume'
+import { useUser } from '@clerk/clerk-react'
+// import GlobalApi from './../../../service/GlobalApi.js'
+import GlobalApi from '../../service/GlobalApi.js';
 
 function Dashboard() {
+
+  const {user}=useUser();
+
+  useEffect(()=>{
+    user&&GetResumesList()
+  },[user])
+
+  const GetResumesList = ()=>{
+    GlobalApi.GetUserResumes(user?.primaryEmailAddress?.emailAddress).then(resp=>{
+      console.log(resp.data);
+    })
+  } 
+
   return (
-    <div>
-      Dashboard
+    // padding =10 for medium paddinng=20 and for  large padding =32 
+    <div className='p-10 md:px-20 lg:px-32'>
+      <h2 className='font-bold text-3xl'>My Resume</h2>
+      <p>Start & Explore AI Resume builder, create resume with AI</p>
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10'>
+        <AddResume/>
+      </div>
     </div>
   )
 }

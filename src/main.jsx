@@ -9,6 +9,7 @@ import Home from './home/index.jsx'
 import Dashboard from './dashboard/index.jsx'
 // import { Home } from 'lucide-react' 
 import { ClerkProvider } from '@clerk/clerk-react'
+import EditResume from './dashboard/resume/[resumeId]/edit/index.jsx'
 // this is test
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 // Step-1 create const router
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <Dashboard/> 
+      },
+      {
+        path:'/dashboard/resume/:resumeId/edit',
+        element:<EditResume/>
       }
     ]
   },
