@@ -10,16 +10,17 @@ import Dashboard from './dashboard/index.jsx'
 // import { Home } from 'lucide-react' 
 import { ClerkProvider } from '@clerk/clerk-react'
 import EditResume from './dashboard/resume/[resumeId]/edit/index.jsx'
+
+
 // this is test
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 // Step-1 create const router
 const router = createBrowserRouter([
   {
-    // Here We are crearing the After app page from the diagram in copy 
+    // Here We are creating the After app page from the diagram in copy 
     element: <App/>,
     // Adding Subroutes 
-    children: [
-      
+    children: [ 
       {
         path: '/dashboard',
         element: <Dashboard/> 

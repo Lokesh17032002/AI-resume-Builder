@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Button } from './components/ui/button'
 // import component-name  
 import { Navigate, Outlet } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 import Header from './components/custom/Header'
+import { Toaster } from 'sonner'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,10 +20,10 @@ function App() {
 
   return (
     <>
-      {/* adds header component in all pages  */}
       <Header/>
-      {/* whatever the children u are  rendering inside this app layout , it will render through this outlet method/component  */}
+      {/* whatever the children u are rendering inside this app layout , it will render through this outlet method/component  */}
       <Outlet/>
+      <Toaster/>
     </>
   )
 }

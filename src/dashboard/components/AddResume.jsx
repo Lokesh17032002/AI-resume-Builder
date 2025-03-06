@@ -1,20 +1,14 @@
 import { Loader2, PlusSquare } from 'lucide-react'
 import React from 'react'
 import { useState } from 'react'
-// imported dialog from shadcn.com 
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
+// imported dialog from shadcn.com   
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { v4 as uuidv4 } from 'uuid'
 import GlobalApi from './../../../service/GlobalApi.js'
 import { useUser } from '@clerk/clerk-react'
+import { useNavigate } from 'react-router-dom'
   
 
 function AddResume() {
@@ -23,10 +17,12 @@ function AddResume() {
     const {user}=useUser() 
     const [loading,setLoading]=useState(false)
 
+    const navigation = useNavigate() ;
+
     const onCreate =async()=>{
         setLoading(true)
         // unique id 
-        const uuid =uuidv4();;
+        const uuid =uuidv4();
         // console.log(resumeTitle,uuid)
         const data ={
             data:{
@@ -38,9 +34,10 @@ function AddResume() {
         };
         console.log(data); // Add this before the API call to see the data object in the console
         GlobalApi.CreateNewResume(data).then(resp=>{
-            console.log(resp)
+            console.log(resp.data.data.documentId)
             if(resp){
                 setLoading(false)
+                navigation('/dashboard/resume/'+ resp.data.data.documentId +'/edit');
             }
         },(error)=>{
             console.error('Error creating resume:', error); // Log the error
@@ -60,20 +57,20 @@ function AddResume() {
       <Dialog open={openDialog}> 
         <DialogContent>
             <DialogHeader>
-            <DialogTitle>Create New Resume</DialogTitle>
-            <DialogDescription>
-                <p>Add title for your new resume.</p>
-                <Input className="my-2" placeholder="Ex. Full Stack Resume" onChange={(e)=>setResumeTitle(e.target.value)}/>
-            </DialogDescription>
-            <div className='flex justify-end gap-5'>
-            {/* variant="ghost" removes the bg color for the button  */}
-                <Button variant="ghost" onClick={()=>setOpenDialog(false)}>Cancel</Button>
-                <Button disabled={!resumeTitle || loading} onClick={()=>onCreate()}>
-                    {loading?
-                        <Loader2 className='animate-spin'/> : 'Create'
-                    }
-                    Create</Button>
-            </div>
+                <DialogTitle>Create New Resume</DialogTitle>
+                <DialogDescription>
+                    <p>Add title for your new resume.</p>
+                    <Input className="my-2" placeholder="Ex. Full Stack Resume" onChange={(e)=>setResumeTitle(e.target.value)}/>
+                </DialogDescription>
+                <div className='flex justify-end gap-5'>
+                    {/* variant="ghost" removes the bg color for the button  */}
+                    <Button variant="ghost" onClick={()=>setOpenDialog(false)}>Cancel</Button>
+                    <Button disabled={!resumeTitle || loading} onClick={()=>onCreate()}>
+                        {loading ?
+                            <Loader2 className='animate-spin'/> : 'Create'
+                        }
+                    </Button>
+                </div>
             </DialogHeader>
         </DialogContent>
      </Dialog>
