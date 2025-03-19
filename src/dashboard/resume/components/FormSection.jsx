@@ -33,8 +33,8 @@ function FormSection() {
           {/* Personal Details  */}
             { activeFormIndex == 1 ? <PersonalDetails enabledNext={(v)=>setEnableNext(v)}/> : 
               activeFormIndex ==2 ? <Summery enabledNext={(v)=>setEnableNext(v)}/>:
-              activeFormIndex == 3 ? <Experience/>:
-              activeFormIndex == 4 ? <Education /> :null 
+              activeFormIndex == 3 ? <Experience enabledNext={(v)=>setEnableNext(v)}/>:
+              activeFormIndex == 4 ? <Education enabledNext={(v)=>setEnableNext(v)}/> :null 
             }
 
           {/* Education  */}
