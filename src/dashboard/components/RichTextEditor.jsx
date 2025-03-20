@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Editor, EditorProvider } from 'react-simple-wysiwyg'
 import { useState } from 'react'
 import { Toolbar, BtnBold, BtnItalic, BtnUnderline, BtnStrikeThrough, Separator, BtnNumberedList, BtnBulletList, BtnLink } from 'react-simple-wysiwyg'
@@ -8,13 +8,25 @@ import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { toast } from 'sonner';
 import { AIchatSession } from '../../../service/AIModal.js';
 
-const PROMPT = "position titile: {positionTitle} , Depends on position title give me 5-7 bullet points for my experience in resume (Please do not add experince level and No JSON array) , give me result in HTML tags"
+const PROMPT = "position titile: {positionTitle} , Depends on position title give me 5-7 bullet points for my experience in resume (Please do not add experince level) , give me result in array of string"
 
 function RichTextEditor({onRichtextEditorChange, index}) {
 
-    const [value, setvalue] = useState();
+    const [value, setvalue] = useState([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
+    const [editorContent, setEditorContent] = useState(resumeInfo?.Experience[index]?.summary || '');
     const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+      if (editorContent) {
+        setResumeInfo((prev) => ({
+            ...prev,
+            Experience: prev.Experience.map((exp, idx) =>
+                idx === index ? { ...exp, summary: editorContent } : exp
+            ),
+        }));
+      }
+    }, [editorContent]);
 
     const generateSummeryFromAI = async() => {
 
@@ -27,19 +39,18 @@ function RichTextEditor({onRichtextEditorChange, index}) {
       setLoading(true)
 
       const prompt = PROMPT.replace('{positionTitle}', resumeInfo.Experience[index].title)
+
       const result = await AIchatSession.sendMessage(prompt) ; 
-      console.log(result.response.text());
 
-      const responseText = await result.response.text();
-      const resp = JSON.parse(responseText);
+      const AIresponse = JSON.parse(await result.response.text());
+      console.log('AI Response:', AIresponse);
 
-      const experienceSummaries = resp[resumeInfo.Experience[index].title];
-
-      if (experienceSummaries && Array.isArray(experienceSummaries)) {
-        setvalue(experienceSummaries.join("\n"));
+      if(Array.isArray(AIresponse)) {
+        setvalue(AIresponse);
       } else {
-        console.error("Invalid response format:", resp);
+        console.error("Invalid response format:", AIresponse);
         toast("Invalid response format from AI.");
+        setvalue([]);
       }
 
       setLoading(false)
@@ -57,9 +68,9 @@ function RichTextEditor({onRichtextEditorChange, index}) {
         </div>
 
         <EditorProvider>
-            <Editor value={value} onChange={(e)=>{
-                setvalue(e.target.value) ;
-                onRichtextEditorChange(e)
+            <Editor value={editorContent} onChange={(e)=>{
+                setEditorContent(e.target.value);
+                onRichtextEditorChange(e);
             }}>
                 <Toolbar>
                     <BtnBold />
@@ -74,6 +85,17 @@ function RichTextEditor({onRichtextEditorChange, index}) {
                 </Toolbar>
             </Editor>
         </EditorProvider>
+
+        {value && value.length > 0 && 
+            <div className='my-5'>
+                <h2 className='font-bold text-lg'>Suggessions</h2>
+                {value.map((item,index)=>(
+                    <div key={index} onClick={() => setEditorContent(prev => `${prev}\n${item}`)}  className='p-5 shadow-lg my-4 rounded-lg cursor-pointer'>
+                        <p>{item || "No summary available"}</p>
+                    </div>
+                ))}
+            </div>
+        }
     </div>
   )
 }

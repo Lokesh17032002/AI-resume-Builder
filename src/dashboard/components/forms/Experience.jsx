@@ -26,10 +26,9 @@ function Experience() {
   const params=useParams();
 
   useEffect(()=>{
-    resumeInfo?.Experience.length > 0 && setExperienceList(resumeInfo?.Experience)
-    
+    resumeInfo?.Experience && setExperienceList(resumeInfo?.Experience)
   },[])
-
+ 
   const handleChange = (index, event) => {
     const newEntries = experienceList.slice();
     const { name, value } = event.target;
@@ -80,14 +79,14 @@ function Experience() {
 
     console.log(experienceList)
 
-    GlobalApi.UpdateResumeDetail(params?.resumeId,data).then(res=>{
+    GlobalApi.updateResumeDetail(params?.resumeId, data).then(res=>{
         console.log(res);
         setLoading(false);
         toast('Details updated !')
     },(error)=>{
         setLoading(false);
-    })
-
+    }
+  )
 }
 
   return (
@@ -102,7 +101,7 @@ function Experience() {
               <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
                 <div>
                   <label className="text-xs">Position</label>
-                  <Input name="title" value={item.title}
+                  <Input name="title" value={item?.title}
                     onChange={(event) => handleChange(index, event)}
                   />
                   {/*IN THE  GITHUB REPO
@@ -114,42 +113,42 @@ function Experience() {
 
                 <div>
                   <label className="text-xs">Company Name</label>
-                  <Input name="companyName" value={item.companyName}
+                  <Input name="companyName" value={item?.companyName}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">City</label>
-                  <Input name="city" value={item.city}
+                  <Input name="city" value={item?.city}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">State</label>
-                  <Input name="state" value={item.state}
+                  <Input name="state" value={item?.state}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">Start Date</label>
-                  <Input type="date" name="startDate" value={item.startDate}
+                  <Input type="date" name="startDate" value={item?.startDate}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">End Date</label>
-                  <Input type="date" name="endDate" value={item.endDate}
+                  <Input type="date" name="endDate" value={item?.endDate}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div className="col-span-2">
                   {/* Work Summery */}
-                  <RichTextEditor index={index} value={item.workSummery} 
+                  <RichTextEditor index={index} value={item?.workSummery} 
                     onRichtextEditorChange={(event) =>
                       handleRichTextEditor(event, 'workSummery', index)
                     } 

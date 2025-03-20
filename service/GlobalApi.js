@@ -18,6 +18,10 @@ const GetUserResumes = (userEmail)=>axiosClient.get('/user-resumes?filters[userE
 
 //ch-10
 const updateResumeDetail=(id,data)=>axiosClient.put('/user-resumes/'+id, data)
+// const updateResumeDetail = (id, data) => {
+//     console.log('API call payload:', data);
+//     return axiosClient.put(`/user-resumes/${id}`, data);
+// };
 
 export default {
     CreateNewResume,
