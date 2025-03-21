@@ -14,14 +14,14 @@ function RichTextEditor({onRichtextEditorChange, index}) {
 
     const [value, setvalue] = useState([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-    const [editorContent, setEditorContent] = useState(resumeInfo?.Experience[index]?.summary || '');
+    const [editorContent, setEditorContent] = useState(resumeInfo?.experience[index]?.summary || '');
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
       if (editorContent) {
         setResumeInfo((prev) => ({
             ...prev,
-            Experience: prev.Experience.map((exp, idx) =>
+            experience: prev.experience.map((exp, idx) =>
                 idx === index ? { ...exp, summary: editorContent } : exp
             ),
         }));
@@ -30,7 +30,7 @@ function RichTextEditor({onRichtextEditorChange, index}) {
 
     const generateSummeryFromAI = async() => {
 
-      if(!resumeInfo?.Experience[index]?.title){
+      if(!resumeInfo?.experience[index]?.title){
         toast('Please add Position title!');
         setLoading(false);
         return ;
@@ -38,7 +38,7 @@ function RichTextEditor({onRichtextEditorChange, index}) {
 
       setLoading(true)
 
-      const prompt = PROMPT.replace('{positionTitle}', resumeInfo.Experience[index].title)
+      const prompt = PROMPT.replace('{positionTitle}', resumeInfo.experience[index].title)
 
       const result = await AIchatSession.sendMessage(prompt) ; 
 

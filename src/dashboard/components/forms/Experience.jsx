@@ -19,7 +19,7 @@ const formField = {
 };
 
 function Experience() {
-  const [experienceList, setExperienceList] = useState([]);
+  const [experienceList, setExperienceList] = useState([formField]);
 
   const {resumeInfo, setResumeInfo}=useContext(ResumeInfoContext); 
   const [loading, setLoading] = useState(false);
@@ -28,9 +28,10 @@ function Experience() {
   useEffect(()=>{
     resumeInfo?.Experience && setExperienceList(resumeInfo?.Experience)
   },[])
- 
+
   const handleChange = (index, event) => {
     const newEntries = experienceList.slice();
+
     const { name, value } = event.target;
     newEntries[index][name] = value;
     console.log(newEntries);
@@ -39,14 +40,8 @@ function Experience() {
 
   const addNewExperience = () => {
     setExperienceList([...experienceList, { 
-      title: '',
-      companyName: '',
-      city: '',
-      state: '',
-      startDate: '',
-      endDate: '',
-      workSummery: '',
-     }]);
+      ...formField
+    }]);
   };
 
   const removeExperience = () => {
@@ -64,7 +59,7 @@ function Experience() {
     console.log(experienceList)
     setResumeInfo({
         ...resumeInfo,
-        Experience: experienceList
+        experience: experienceList
     })
   }, [experienceList]);
 
@@ -73,7 +68,8 @@ function Experience() {
     setLoading(true)
     const data={
       data:{
-        Experience:experienceList.map(({ id, ...rest }) => rest)
+        //experience NOT Experience
+        experience : experienceList.map(({ id, ...rest }) => rest)
       }
     }
 
