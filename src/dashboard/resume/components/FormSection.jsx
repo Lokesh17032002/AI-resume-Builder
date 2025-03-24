@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import Education from '@/dashboard/components/forms/Education'
 import Experience from '@/dashboard/components/forms/Experience'
 import PersonalDetails from '@/dashboard/components/forms/PersonalDetails'
+import Skills from '@/dashboard/components/forms/Skills'
 import Summery from '@/dashboard/components/forms/Summery'
 import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react'
 import React, { useState } from 'react'
@@ -34,7 +35,8 @@ function FormSection() {
             { activeFormIndex == 1 ? <PersonalDetails enabledNext={(v)=>setEnableNext(v)}/> : 
               activeFormIndex ==2 ? <Summery enabledNext={(v)=>setEnableNext(v)}/>:
               activeFormIndex == 3 ? <Experience enabledNext={(v)=>setEnableNext(v)}/>:
-              activeFormIndex == 4 ? <Education enabledNext={(v)=>setEnableNext(v)}/> :null 
+              activeFormIndex == 4 ? <Education enabledNext={(v)=>setEnableNext(v)}/> :
+              activeFormIndex == 5 ? <Skills enabledNext={(v)=>setEnableNext(v)}/> :null 
             }
 
           {/* Education  */}

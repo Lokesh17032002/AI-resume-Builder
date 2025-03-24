@@ -80,7 +80,7 @@ function Experience() {
         setLoading(false);
         toast('Details updated !')
     },(error)=>{
-        setLoading(false);
+      setLoading(false);
     }
   )
 }

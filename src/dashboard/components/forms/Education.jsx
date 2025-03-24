@@ -5,11 +5,15 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+import { useParams } from 'react-router-dom';
+import GlobalApi from '../../../../service/GlobalApi.js';
+import { toast } from 'sonner';
 
 const Education = () => {
 
     const [loading, setLoading] = useState(false);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
+    const params = useParams();
 
     const [educationalList, setEducationalList] = useState([
         {
@@ -46,9 +50,25 @@ const Education = () => {
     };
 
     const onSave = () => {
-        
+        setLoading(true);
+        const data = {
+            data:{
+                education: educationalList
+            }
+        }
+
+        GlobalApi.updateResumeDetail(params?.resumeId,  data).then(res=>{
+            console.log(res)
+
+            setLoading(false)
+            toast('Educational details added !')
+        },(error)=>{
+            console.log(error)
+            setLoading(false);
+        })  
     }
 
+    //Rea-time changes occur because of this here
     useEffect(()=>{
         setResumeInfo({
             ...resumeInfo,
@@ -69,17 +89,17 @@ const Education = () => {
                             
                             <div className='col-span-2'>
                                 <label>University Name</label>
-                                <Input name="universityName" onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="universityName" required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label>Degree</label>
-                                <Input name="degree" onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="degree" required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label >Major</label>
-                                <Input name="major" onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="major" required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
@@ -112,7 +132,7 @@ const Education = () => {
                     </Button>
                 </div>
             
-                <Button disabled={loading} onCLick={()=>onSave()} >
+                <Button disabled={loading} onClick={()=>onSave()} >
                     {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
                 </Button>
             </div>
