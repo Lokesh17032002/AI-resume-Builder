@@ -7,12 +7,13 @@ import Summery from '@/dashboard/components/forms/Summery'
 import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react'
 import React, { useState } from 'react'
 import { Home } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 
 function FormSection() {
 
   const [activeFormIndex, setActiveFormIndex] = useState(1) 
   const [enableNext, setEnableNext] = useState(false)
+  const {resumeId} = useParams();
 
   return (
     <div>
@@ -43,7 +44,9 @@ function FormSection() {
               activeFormIndex ==2 ? <Summery enabledNext={(v)=>setEnableNext(v)}/>:
               activeFormIndex == 3 ? <Experience enabledNext={(v)=>setEnableNext(v)}/>:
               activeFormIndex == 4 ? <Education enabledNext={(v)=>setEnableNext(v)}/> :
-              activeFormIndex == 5 ? <Skills enabledNext={(v)=>setEnableNext(v)}/> :null 
+              activeFormIndex == 5 ? <Skills enabledNext={(v)=>setEnableNext(v)}/> :
+              activeFormIndex == 6 ? <Navigate to={'/my-resume/'+ resumeId +'/view'}/>
+              :null 
             }
 
           {/* Education  */}
