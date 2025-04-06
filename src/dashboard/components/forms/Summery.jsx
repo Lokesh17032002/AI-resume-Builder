@@ -147,6 +147,11 @@ function Summery({enabledNext}) {
 
     const [aiGeneratedSummeryList, setAIGeneratedSummeryList]=useState([])
 
+    //Whatever i have saved earlier will be shown on screen in teh left side whenever i open it again after sometimes
+    useEffect(()=>{
+                resumeInfo && setSummery(resumeInfo?.summery)
+    },[])
+
     useEffect(()=>{
         summery && setResumeInfo({
             ...resumeInfo,
@@ -172,7 +177,7 @@ function Summery({enabledNext}) {
               experience_level: item.experienceLevel,
               summary: item.summary,
             }));
-      
+
             console.log(summaries); // Debug the summaries
             setAIGeneratedSummeryList(summaries); // Set the summaries list
           } else {

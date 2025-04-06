@@ -10,11 +10,12 @@ import { AIchatSession } from '../../../service/AIModal.js';
 
 const PROMPT = "position titile: {positionTitle} , Depends on position title give me 5-7 bullet points for my experience in resume (Please do not add experince level) , give me result in array of string"
 
-function RichTextEditor({onRichtextEditorChange, index}) {
+function RichTextEditor({onRichtextEditorChange, index, defaultValue}) {
 
     const [value, setvalue] = useState([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
-    const [editorContent, setEditorContent] = useState(resumeInfo?.experience[index]?.summary || '');
+    // const [editorContent, setEditorContent] = useState(resumeInfo?.experience[index]?.summary || '');
+    const [editorContent, setEditorContent] = useState(defaultValue || ''); 
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -56,6 +57,12 @@ function RichTextEditor({onRichtextEditorChange, index}) {
       setLoading(false)
     }
 
+    const handleSuggestionClick = (suggestion) => {
+      const updatedContent = editorContent ? `${editorContent}\n${suggestion}` : suggestion;
+      setEditorContent(updatedContent); // Update the editor content
+      onRichtextEditorChange({ target: { value: updatedContent } }); // Trigger parent update
+    };
+
   return (
     <div>
         <div className='flex justify-between my-2'>
@@ -90,13 +97,14 @@ function RichTextEditor({onRichtextEditorChange, index}) {
             <div className='my-5'>
                 <h2 className='font-bold text-lg'>Suggessions</h2>
                 {value.map((item,index)=>(
-                    <div key={index} onClick={() => setEditorContent(prev => `${prev}\n${item}`)}  className='p-5 shadow-lg my-4 rounded-lg cursor-pointer'>
+                    <div key={index} onClick={() => handleSuggestionClick(item) }  className='p-5 shadow-lg my-4 rounded-lg cursor-pointer'>
                         <p>{item || "No summary available"}</p>
                     </div>
                 ))}
             </div>
         }
     </div>
+    // setEditorContent(prev => `${prev}\n${item}`
   )
 }
 

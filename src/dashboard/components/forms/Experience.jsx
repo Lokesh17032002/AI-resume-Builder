@@ -26,7 +26,9 @@ function Experience() {
   const params=useParams();
 
   useEffect(()=>{
-    resumeInfo?.Experience && setExperienceList(resumeInfo?.Experience)
+    if(resumeInfo?.experience){
+      setExperienceList(resumeInfo?.experience)
+    }
   },[])
 
   const handleChange = (index, event) => {
@@ -97,7 +99,7 @@ function Experience() {
               <div className="grid grid-cols-2 gap-3 border p-3 my-5 rounded-lg">
                 <div>
                   <label className="text-xs">Position</label>
-                  <Input name="title" value={item?.title}
+                  <Input name="title" defaultValue={item?.title || ''} 
                     onChange={(event) => handleChange(index, event)}
                   />
                   {/*IN THE  GITHUB REPO
@@ -109,42 +111,42 @@ function Experience() {
 
                 <div>
                   <label className="text-xs">Company Name</label>
-                  <Input name="companyName" value={item?.companyName}
+                  <Input name="companyName" defaultValue={item?.companyName || ''}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">City</label>
-                  <Input name="city" value={item?.city}
+                  <Input name="city" defaultValue={item?.city || ''}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">State</label>
-                  <Input name="state" value={item?.state}
+                  <Input name="state" defaultValue={item?.state || ''}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">Start Date</label>
-                  <Input type="date" name="startDate" value={item?.startDate}
+                  <Input type="date" name="startDate" defaultValue={item?.startDate || ''}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div>
                   <label className="text-xs">End Date</label>
-                  <Input type="date" name="endDate" value={item?.endDate}
+                  <Input type="date" name="endDate" defaultValue={item?.endDate || ''}
                     onChange={(event) => handleChange(index, event)}
                   />
                 </div>
 
                 <div className="col-span-2">
                   {/* Work Summery */}
-                  <RichTextEditor index={index} value={item?.workSummery} 
+                  <RichTextEditor index={index} defaultValue={item?.workSummery || ''} 
                     onRichtextEditorChange={(event) =>
                       handleRichTextEditor(event, 'workSummery', index)
                     } 

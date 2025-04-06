@@ -20,6 +20,10 @@ const Skills = () => {
     const {resumeInfo, setResumeInfo} = useContext(ResumeInfoContext);
     const params = useParams();
 
+    useEffect(()=>{
+            resumeInfo && setSkillList(resumeInfo?.skills)
+    },[])
+
     const handleChange = (index, name, value) => {
         const newEntries = skillList.slice();
 
@@ -42,9 +46,9 @@ const Skills = () => {
     const onSave = () => {
         setLoading(true)
         const data={
-        data:{
-            skills : skillList
-        }
+            data:{
+                skills : skillList.map(({ id, ...rest }) => rest)
+            }
         }
 
         console.log(skillList)
@@ -76,7 +80,7 @@ const Skills = () => {
                 <div key={index} className='flex justify-between mb-2 border rounded-lg p-3 '>
                 <div>
                     <label className='text-xs'>Name</label>
-                    <Input onChange={(e)=> handleChange(index, 'name', e.target.value)}></Input>
+                    <Input defaultValue={item.name} onChange={(e)=> handleChange(index, 'name', e.target.value)}></Input>
                 </div>
                 
                 <Rating style={{ maxWidth: 120 }} value={item.rating} onChange={(v)=> handleChange(index, 'rating', v)} />

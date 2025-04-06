@@ -26,6 +26,10 @@ const Education = () => {
         }
     ])
 
+    useEffect(()=>{
+        resumeInfo && setEducationalList(resumeInfo?.education)
+    },[])
+
     const handleChange = (event, index) => {
         const newEntries = educationalList.slice();
         const { name, value } = event.target;
@@ -53,7 +57,7 @@ const Education = () => {
         setLoading(true);
         const data = {
             data:{
-                education: educationalList
+                education: educationalList.map(({ id, ...rest }) => rest)
             }
         }
 
@@ -89,32 +93,32 @@ const Education = () => {
                             
                             <div className='col-span-2'>
                                 <label>University Name</label>
-                                <Input name="universityName" required onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="universityName" defaultValue = {item?.universityName} required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label>Degree</label>
-                                <Input name="degree" required onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="degree" defaultValue={item?.degree} required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label >Major</label>
-                                <Input name="major" required onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input name="major" defaultValue={item?.major} required onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label>Start Date</label>
-                                <Input type="date" name="startDate" onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input type="date" defaultValue={item?.startDate} name="startDate" onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div>
                                 <label>End Date</label>
-                                <Input type="date" name="endDate" onChange={(e)=> handleChange(e, index)}></Input>
+                                <Input type="date" defaultValue={item?.endDate}  name="endDate" onChange={(e)=> handleChange(e, index)}></Input>
                             </div>
 
                             <div className='col-span-2'>
                                 <label>Description</label>
-                                <Textarea name="description" onChange={(e)=> handleChange(e, index)}></Textarea>
+                                <Textarea name="description" defaultValue={item?.description} onChange={(e)=> handleChange(e, index)}></Textarea>
                             </div>
                         </div>
                     </div>  

@@ -6,6 +6,8 @@ import Skills from '@/dashboard/components/forms/Skills'
 import Summery from '@/dashboard/components/forms/Summery'
 import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react'
 import React, { useState } from 'react'
+import { Home } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function FormSection() {
 
@@ -17,7 +19,12 @@ function FormSection() {
       <h1>
           <div>
             <div className='flex justify-between items-center'>
-              <Button variant="outline" size="sm" className="flex gap-2"> <LayoutGrid/> Theme</Button>
+              <div className='flex gap-5'>
+                <Link to={"/dashboard"}>
+                  <Button> <Home/> </Button>
+                </Link>
+                <Button variant="outline" size="sm" className="flex gap-2"> <LayoutGrid/> Theme</Button>
+              </div>
 
               <div className='flex gap-2'>
 
