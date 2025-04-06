@@ -31,7 +31,7 @@ function Dashboard() {
       hover:scale-105 transition-all hover:shadow-md shadow-primary'>
         <AddResume/>
         {resumeList.length > 0 && resumeList.map((resume, index) => (
-          <ResumeCardItem resume={resume} key={index}/>
+          <ResumeCardItem resume={resume} key={index} refreshData={GetResumesList}/>
         ))}
       </div>
     </div>
